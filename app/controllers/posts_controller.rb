@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    @comments = Comment.create
   end
 
   def new
@@ -41,10 +42,11 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
+    @post.destroy_all
     respond_to do |format|
       format.html { redirect_to posts_url }
       format.json { head :no_content }
+
     end
   end
 
@@ -54,6 +56,6 @@ class PostsController < ApplicationController
     end
 
     def post_params
-      params.require(:post).permit(:name, :content, :user_id, :tag_ids => [], :tags_attributes => [:id, :name])
+      params.require(:post).permit(:name, :content, :user_id, :comments, :tag_ids => [], :tags_attributes => [:id, :name])
     end
 end
